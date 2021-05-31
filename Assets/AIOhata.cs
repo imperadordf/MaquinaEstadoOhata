@@ -67,7 +67,7 @@ public class AIOhata : MonoBehaviour
         //Caso seja para parecer no Inspected, mostro a duration do movimento no Formato correto
         if (Task.isInspected)
             Task.current.debugInfo = string.Format("t={0:0.00}", Time.time);
-            //Verfico as variaves do Agent para concluir a task,que serias as variavels do Agent, a distancia e a onde esta 
+        //Verfico as variaves do Agent para concluir a task,que serias as variavels do Agent, a distancia e a onde esta 
         if (agent.remainingDistance <= agent.stoppingDistance && !agent.pathPending)
         {
             Task.current.Succeed();
@@ -117,7 +117,7 @@ public class AIOhata : MonoBehaviour
         }
     }
 
-//O Metodo para perguntar se estou vendo o Player e tambem verificar se tem parede na frente, para trazer realiadade ao NPC
+    //O Metodo para perguntar se estou vendo o Player e tambem verificar se tem parede na frente, para trazer realiadade ao NPC
     [Task]
     bool SeePlayer()
     {
@@ -147,6 +147,22 @@ public class AIOhata : MonoBehaviour
         var p = this.transform.position + Quaternion.AngleAxis(angle, Vector3.up) *
         this.transform.forward;
         target = p;
+        return true;
+    }
+
+    //VERIFICA, METODO DE CONDIÇÃO, verificado a minha vida e se tiver a baixo do valor recebido, retorne True
+    [Task]
+    public bool IsHealthLessThan(float health)
+    {
+        return this.health < health;
+    }
+
+    //Metodo ao morrer, ele explode, destroi objeto e a vida
+    [Task]
+    public bool Explode()
+    {
+        Destroy(healthBar.gameObject);
+        Destroy(this.gameObject);
         return true;
     }
 }
